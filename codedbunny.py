@@ -1,36 +1,21 @@
-def message(l,t):
-    for i in range(0,len(l)):
-        total = l[i]
-        fn = 0
-        st = i
-
-        while total != t:
-            try:
-                total = total + l[i+1]
-                i += 1
-                fn = i
-            except IndexError:
-                break
-
-        if total == t:
-            return [st,fn]
-        
-    return [-1,-1]
-
-def check_contents_ls(l):
-    result = True
-    for i in l:
-        if type(i) != int:
-            result = False 
-            break
-        if i not in range(1, 101):
-            result = False 
-            break
+def check_val_list(e):
+    result = True 
+    if type(e) != int:
+        result = False 
+    if e not in range(1, 101):
+        result = False 
     
-    if type(l) != list:
-        result = False
-        
     return result
+
+
+def solve(l,t):
+    for i,ival in enumerate(l):
+        if check_val_list(ival):
+            for j,_ in enumerate(l):
+                if sum(l[i:j+1]) == t:
+                    return [i, j]
+
+    return [-1,-1]
 
 def check_contents_t(t):
     if type(t) != int:
@@ -41,12 +26,11 @@ def check_contents_t(t):
     return True
 
 def solution(l,t):
-    if len(l) in range(1, 101):
-        if check_contents_ls(l):
-            if check_contents_t(t):
-                return message(l,t)
+    if type(l) == list and check_contents_t(t):
+        return solve(l,t)
+    else:
+        return [-1,-1]
 
-    return [-1,-1]
 
 if __name__ == "__main__":
     print(solution([101,50,50,49], 250))
